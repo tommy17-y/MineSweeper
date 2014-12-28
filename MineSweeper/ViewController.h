@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
 #define MINE @"Mine"
 #define NOMINE @"NoMine"
 
 @interface ViewController : UIViewController {
+    AppDelegate *appDelegate;
+    
     int width;
     int height;
     
