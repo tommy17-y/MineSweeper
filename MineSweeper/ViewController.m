@@ -27,6 +27,7 @@
     mineNum = 5;
     
     [tiles removeAllObjects];
+    [tileContents removeAllObjects];
     
     leftMineLabel.text = [NSString stringWithFormat:@"%d", mineNum];
     timerLabel.text = @"00:00:00";
@@ -49,8 +50,11 @@
                                         width,
                                         height)];
         tile.image = [UIImage imageNamed:@"masu.png"];
-        tile.tag = NOMINE;
+        tile.tag = i;
+        tile.userInteractionEnabled = NO;
         [tiles addObject:tile];
+        
+        [tileContents addObject:[NSString stringWithFormat:@"%d", NOMINE]];
         
         [base addSubview:tile];
     }
@@ -62,10 +66,11 @@
     
     for (;;){
         int rand = arc4random() % (widthNum * heightNum);
-        UIImageView *tile = tiles[rand];
+        NSString *num = tileContents[rand];
         
-        if (tile.tag != MINE) {
-            tile.tag = MINE;
+        if (num.intValue != MINE) {
+            [tileContents replaceObjectAtIndex:rand
+                                     withObject:[NSString stringWithFormat:@"%d", MINE]];
             count--;
             if(count <= 0) {
                 break;
@@ -78,6 +83,12 @@
 - (IBAction)start:(UIButton*)startButton {
     startButton.hidden = YES;
     startTime = [NSDate timeIntervalSinceReferenceDate];
+    
+    for (int i = 0; i < widthNum * heightNum; i++) {
+        UIImageView *tile = tiles[i];
+        tile.userInteractionEnabled = YES;
+    }
+    
     timer = [NSTimer scheduledTimerWithTimeInterval:0.01f target:self selector:@selector(timerLabelUpdata) userInfo:nil repeats:YES];
 }
 

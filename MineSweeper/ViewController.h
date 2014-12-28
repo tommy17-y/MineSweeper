@@ -20,6 +20,7 @@
     int mineNum;
     
     NSMutableArray *tiles;
+    NSMutableArray *tileContents;
     
     IBOutlet UIView *base;
     IBOutlet UILabel *leftMineLabel;
