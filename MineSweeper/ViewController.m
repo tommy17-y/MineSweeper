@@ -26,6 +26,8 @@
     heightNum = 5;
     mineNum = 5;
     
+    openedTileNum = 0;
+    
     tileImg = [UIImage imageNamed:@"masu.png"];
     mineImg = [UIImage imageNamed:@"mine.png"];
     nothingImg = [UIImage imageNamed:@"nothing.png"];
@@ -48,9 +50,20 @@
     UIImageView *tappedTile = (UIImageView*)[base viewWithTag:recognizer.view.tag];
     
     if (tappedTile != nil) {
-        if ([tileContents[tappedTile.tag] isEqual:NOMINE]) {
+        if ([tileContents[tappedTile.tag - 1] isEqual:NOMINE]) {
             tappedTile.image = nothingImg;
-        } else if ([tileContents[tappedTile.tag] isEqual:MINE]) {
+            openedTileNum++;
+            
+            if (openedTileNum == widthNum * heightNum - mineNum) {
+                [timer invalidate];
+
+                [NSTimer scheduledTimerWithTimeInterval:0.5f target:self
+                                               selector:@selector(allTileOpen)
+                                               userInfo:nil repeats:NO];
+                
+                leftMineLabel.text = @"クリア！";
+            }
+        } else if ([tileContents[tappedTile.tag - 1] isEqual:MINE]) {
             tappedTile.image = mineImg;
             [timer invalidate];
             
@@ -96,7 +109,7 @@
                                         width,
                                         height)];
         tile.image = tileImg;
-        tile.tag = i;
+        tile.tag = i + 1;
         tile.userInteractionEnabled = NO;
         [tiles addObject:tile];
         
@@ -117,6 +130,8 @@
     
     for (;;){
         int rand = arc4random() % (widthNum * heightNum);
+        
+        NSLog(@"%d", rand);
         
         if ([tileContents[rand] isEqual:NOMINE]) {
             [tileContents replaceObjectAtIndex:rand withObject:MINE];

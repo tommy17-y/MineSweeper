@@ -19,6 +19,8 @@
     int heightNum;
     int mineNum;
     
+    int openedTileNum;
+    
     NSMutableArray *tiles;
     NSMutableArray *tileContents;
     
