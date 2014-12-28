@@ -30,6 +30,7 @@
     
     tileImg = [UIImage imageNamed:@"masu.png"];
     mineImg = [UIImage imageNamed:@"mine.png"];
+    flagImg = [UIImage imageNamed:@"flag.png"];
     nothingImg = [UIImage imageNamed:@"nothing.png"];
     
     tiles = [NSMutableArray array];
@@ -39,6 +40,8 @@
     
     leftMineLabel.text = [NSString stringWithFormat:@"%d", mineNum];
     timerLabel.text = @"00:00:00";
+    
+    base.userInteractionEnabled = NO;
     
     [self setTile];
     [self setMine];
@@ -251,6 +254,44 @@
         [timer invalidate];
     }
     
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    tapStartTime = [NSDate timeIntervalSinceReferenceDate];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    if (base.userInteractionEnabled == YES) {
+    
+        NSTimeInterval tapEndTime = [NSDate timeIntervalSinceReferenceDate];
+        
+        if ((tapEndTime - tapStartTime) > 0.7) {
+            UITouch *touch = [touches anyObject];
+            CGPoint location = [touch locationInView:base];
+            
+            UIImageView *tappedTile = [[UIImageView alloc] init];
+            
+            for (int i = 1; i <= heightNum; i++) {
+                if (location.y <= height * i) {
+                    for (int j = 1; j <= widthNum; j++) {
+                        if (location.x <= width * j) {
+                            tappedTile = (UIImageView*)[base viewWithTag:(widthNum * (i - 1) + j)];
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            
+            if (tappedTile != nil) {
+                if (tappedTile.image == tileImg) {
+                    tappedTile.image = flagImg;
+                } else if (tappedTile.image == flagImg) {
+                    tappedTile.image = tileImg;
+                }
+            }
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
