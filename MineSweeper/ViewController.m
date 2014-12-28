@@ -19,13 +19,20 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    width = 50;
-    height = 50;
+    appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    widthNum = 5;
-    heightNum = 5;
-    mineNum = 5;
+    widthNum = appDelegate.widthNum;
+    heightNum = appDelegate.heightNum;
+    mineNum = appDelegate.mineNum;
     
+    if (widthNum <= 6 && heightNum <= 10) {
+        width = 50;
+        height = 50;
+    } else {
+        width = 25;
+        height = 25;
+    }
+
     openedTileNum = 0;
     
     tileImg = [UIImage imageNamed:@"masu.png"];
@@ -177,7 +184,7 @@
         
         UIImageView *tile = [[UIImageView alloc] initWithFrame:
                              CGRectMake(0 + (i % widthNum) * width,
-                                        0 + (i / heightNum) * height,
+                                        0 + (i / widthNum) * height,
                                         width,
                                         height)];
         tile.image = tileImg;
