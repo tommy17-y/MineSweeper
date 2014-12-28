@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#define MINE 8888
-#define NOMINE 7777
+#define MINE @"Mine"
+#define NOMINE @"NoMine"
 
 @interface ViewController : UIViewController {
     int width;
@@ -28,6 +28,10 @@
     
     NSTimeInterval startTime;
     NSTimer *timer;
+    
+    UIImage *tileImg;
+    UIImage *mineImg;
+    UIImage *nothingImg;
 }
 
 - (IBAction)start:(UIButton*)startButton;

@@ -23,6 +23,7 @@
 		B6C17E8F1A4FC9B300357C80 /* MineSweeperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C17E8E1A4FC9B300357C80 /* MineSweeperTests.m */; };
 		B6C17E9B1A4FD48900357C80 /* masu.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C17E991A4FD48900357C80 /* masu.png */; };
 		B6C17E9C1A4FD48900357C80 /* mine.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C17E9A1A4FD48900357C80 /* mine.png */; };
+		B6C17E9E1A4FFAAA00357C80 /* nothing.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C17E9D1A4FFAAA00357C80 /* nothing.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		B6C17E8E1A4FC9B300357C80 /* MineSweeperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineSweeperTests.m; sourceTree = "<group>"; };
 		B6C17E991A4FD48900357C80 /* masu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masu.png; sourceTree = "<group>"; };
 		B6C17E9A1A4FD48900357C80 /* mine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mine.png; sourceTree = "<group>"; };
+		B6C17E9D1A4FFAAA00357C80 /* nothing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nothing.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 		B6C17E981A4FD47700357C80 /* 素材 */ = {
 			isa = PBXGroup;
 			children = (
+				B6C17E9D1A4FFAAA00357C80 /* nothing.png */,
 				B6C17E991A4FD48900357C80 /* masu.png */,
 				B6C17E9A1A4FD48900357C80 /* mine.png */,
 			);
@@ -245,6 +248,7 @@
 				B6C17E7C1A4FC9B300357C80 /* Images.xcassets in Resources */,
 				B6C17E9C1A4FD48900357C80 /* mine.png in Resources */,
 				B6C17E9B1A4FD48900357C80 /* masu.png in Resources */,
+				B6C17E9E1A4FFAAA00357C80 /* nothing.png in Resources */,
 				B6C17E6E1A4FC9B300357C80 /* InfoPlist.strings in Resources */,
 				B6C17E771A4FC9B300357C80 /* Main.storyboard in Resources */,
 			);

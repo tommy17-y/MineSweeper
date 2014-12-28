@@ -26,6 +26,12 @@
     heightNum = 5;
     mineNum = 5;
     
+    tileImg = [UIImage imageNamed:@"masu.png"];
+    mineImg = [UIImage imageNamed:@"mine.png"];
+    nothingImg = [UIImage imageNamed:@"nothing.png"];
+    
+    tiles = [NSMutableArray array];
+    tileContents = [NSMutableArray array];
     [tiles removeAllObjects];
     [tileContents removeAllObjects];
     
@@ -34,6 +40,22 @@
     
     [self setTile];
     [self setMine];
+    
+}
+
+- (void)onTappedTile:(UITapGestureRecognizer*)recognizer {
+    
+    UIImageView *tappedTile = (UIImageView*)[base viewWithTag:recognizer.view.tag];
+    
+    NSLog(@"%@", tappedTile.image);
+    
+    if (tappedTile != nil) {
+        if ([tileContents[tappedTile.tag] isEqual:NOMINE]) {
+            tappedTile.image = nothingImg;
+        } else if ([tileContents[tappedTile.tag] isEqual:MINE]) {
+            tappedTile.image = mineImg;
+        }
+    }
     
 }
 
@@ -49,15 +71,20 @@
                                         0 + (i / heightNum) * height,
                                         width,
                                         height)];
-        tile.image = [UIImage imageNamed:@"masu.png"];
+        tile.image = tileImg;
         tile.tag = i;
         tile.userInteractionEnabled = NO;
         [tiles addObject:tile];
         
-        [tileContents addObject:[NSString stringWithFormat:@"%d", NOMINE]];
+        [tileContents addObject:NOMINE];
+        
+        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc]
+                                              initWithTarget:self action:@selector(onTappedTile:)];
+        [tile addGestureRecognizer:recognizer];
         
         [base addSubview:tile];
     }
+    
 }
 
 - (void)setMine {
@@ -66,11 +93,11 @@
     
     for (;;){
         int rand = arc4random() % (widthNum * heightNum);
-        NSString *num = tileContents[rand];
         
-        if (num.intValue != MINE) {
-            [tileContents replaceObjectAtIndex:rand
-                                     withObject:[NSString stringWithFormat:@"%d", MINE]];
+        NSLog(@"%d", rand);
+        
+        if ([tileContents[rand] isEqual:NOMINE]) {
+            [tileContents replaceObjectAtIndex:rand withObject:MINE];
             count--;
             if(count <= 0) {
                 break;
@@ -89,7 +116,11 @@
         tile.userInteractionEnabled = YES;
     }
     
-    timer = [NSTimer scheduledTimerWithTimeInterval:0.01f target:self selector:@selector(timerLabelUpdata) userInfo:nil repeats:YES];
+    base.userInteractionEnabled = YES;
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval:0.01f target:self
+                                           selector:@selector(timerLabelUpdata)
+                                           userInfo:nil repeats:YES];
 }
 
 - (void)timerLabelUpdata {
