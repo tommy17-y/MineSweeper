@@ -12,4 +12,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+@property int widthNum;
+@property int heightNum;
+@property int mineNum;
+
 @end

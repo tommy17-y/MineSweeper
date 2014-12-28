@@ -21,6 +21,8 @@
 		B6C17E851A4FC9B300357C80 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C17E671A4FC9B300357C80 /* UIKit.framework */; };
 		B6C17E8D1A4FC9B300357C80 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B6C17E8B1A4FC9B300357C80 /* InfoPlist.strings */; };
 		B6C17E8F1A4FC9B300357C80 /* MineSweeperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C17E8E1A4FC9B300357C80 /* MineSweeperTests.m */; };
+		B6C17E9B1A4FD48900357C80 /* masu.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C17E991A4FD48900357C80 /* masu.png */; };
+		B6C17E9C1A4FD48900357C80 /* mine.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C17E9A1A4FD48900357C80 /* mine.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		B6C17E8A1A4FC9B300357C80 /* MineSweeperTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MineSweeperTests-Info.plist"; sourceTree = "<group>"; };
 		B6C17E8C1A4FC9B300357C80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B6C17E8E1A4FC9B300357C80 /* MineSweeperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineSweeperTests.m; sourceTree = "<group>"; };
+		B6C17E991A4FD48900357C80 /* masu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masu.png; sourceTree = "<group>"; };
+		B6C17E9A1A4FD48900357C80 /* mine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mine.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +116,7 @@
 		B6C17E691A4FC9B300357C80 /* MineSweeper */ = {
 			isa = PBXGroup;
 			children = (
+				B6C17E981A4FD47700357C80 /* 素材 */,
 				B6C17E721A4FC9B300357C80 /* AppDelegate.h */,
 				B6C17E731A4FC9B300357C80 /* AppDelegate.m */,
 				B6C17E751A4FC9B300357C80 /* Main.storyboard */,
@@ -150,6 +155,15 @@
 				B6C17E8B1A4FC9B300357C80 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B6C17E981A4FD47700357C80 /* 素材 */ = {
+			isa = PBXGroup;
+			children = (
+				B6C17E991A4FD48900357C80 /* masu.png */,
+				B6C17E9A1A4FD48900357C80 /* mine.png */,
+			);
+			name = "素材";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +243,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6C17E7C1A4FC9B300357C80 /* Images.xcassets in Resources */,
+				B6C17E9C1A4FD48900357C80 /* mine.png in Resources */,
+				B6C17E9B1A4FD48900357C80 /* masu.png in Resources */,
 				B6C17E6E1A4FC9B300357C80 /* InfoPlist.strings in Resources */,
 				B6C17E771A4FC9B300357C80 /* Main.storyboard in Resources */,
 			);
@@ -376,6 +392,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MineSweeper/MineSweeper-Prefix.pch";
 				INFOPLIST_FILE = "MineSweeper/MineSweeper-Info.plist";
@@ -389,6 +406,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MineSweeper/MineSweeper-Prefix.pch";
 				INFOPLIST_FILE = "MineSweeper/MineSweeper-Info.plist";

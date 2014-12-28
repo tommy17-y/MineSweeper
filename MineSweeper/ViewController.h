@@ -8,6 +8,27 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+#define MINE 8888
+#define NOMINE 7777
+
+@interface ViewController : UIViewController {
+    int width;
+    int height;
+    
+    int widthNum;
+    int heightNum;
+    int mineNum;
+    
+    NSMutableArray *tiles;
+    
+    IBOutlet UIView *base;
+    IBOutlet UILabel *leftMineLabel;
+    IBOutlet UILabel *timerLabel;
+    
+    NSTimeInterval startTime;
+    NSTimer *timer;
+}
+
+- (IBAction)start:(UIButton*)startButton;
 
 @end
