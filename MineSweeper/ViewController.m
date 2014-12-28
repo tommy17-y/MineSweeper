@@ -47,16 +47,40 @@
     
     UIImageView *tappedTile = (UIImageView*)[base viewWithTag:recognizer.view.tag];
     
-    NSLog(@"%@", tappedTile.image);
-    
     if (tappedTile != nil) {
         if ([tileContents[tappedTile.tag] isEqual:NOMINE]) {
             tappedTile.image = nothingImg;
         } else if ([tileContents[tappedTile.tag] isEqual:MINE]) {
             tappedTile.image = mineImg;
+            [timer invalidate];
+            
+            [NSTimer scheduledTimerWithTimeInterval:0.5f target:self
+                                           selector:@selector(allTileOpen)
+                                           userInfo:nil repeats:NO];
+            
+            [NSTimer scheduledTimerWithTimeInterval:3 target:self
+                                           selector:@selector(toStart)
+                                           userInfo:nil repeats:NO];
         }
     }
     
+}
+
+- (void)allTileOpen {
+    
+    for (int i = 0; i < widthNum * heightNum; i++) {
+        UIImageView *tile = tiles[i];
+        if ([tileContents[i] isEqual:NOMINE]) {
+            tile.image = nothingImg;
+        } else if ([tileContents[i] isEqual:MINE]) {
+            tile.image = mineImg;
+        }
+    }
+    
+}
+
+- (void)toStart {
+    [self performSegueWithIdentifier:@"toStart" sender:self];
 }
 
 - (void)setTile {
@@ -93,8 +117,6 @@
     
     for (;;){
         int rand = arc4random() % (widthNum * heightNum);
-        
-        NSLog(@"%d", rand);
         
         if ([tileContents[rand] isEqual:NOMINE]) {
             [tileContents replaceObjectAtIndex:rand withObject:MINE];
