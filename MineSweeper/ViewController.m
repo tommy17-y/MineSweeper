@@ -53,33 +53,35 @@
     UIImageView *tappedTile = (UIImageView*)[base viewWithTag:recognizer.view.tag];
     
     if (tappedTile != nil) {
-        tappedTile.userInteractionEnabled = NO;
-        if ([tileContents[tappedTile.tag - 1] isEqual:NOMINE]) {
-            tappedTile.image = nothingImg;
-            openedTileNum++;
-            
-            [self mineCount:(int)tappedTile.tag];
-            
-            if (openedTileNum == widthNum * heightNum - mineNum) {
+        if (tappedTile.image != flagImg) {
+            tappedTile.userInteractionEnabled = NO;
+            if ([tileContents[tappedTile.tag - 1] isEqual:NOMINE]) {
+                tappedTile.image = nothingImg;
+                openedTileNum++;
+                
+                [self mineCount:(int)tappedTile.tag];
+                
+                if (openedTileNum == widthNum * heightNum - mineNum) {
+                    [timer invalidate];
+                    
+                    [NSTimer scheduledTimerWithTimeInterval:0.5f target:self
+                                                   selector:@selector(allTileOpen)
+                                                   userInfo:nil repeats:NO];
+                    
+                    leftMineLabel.text = @"クリア！";
+                }
+            } else if ([tileContents[tappedTile.tag - 1] isEqual:MINE]) {
+                tappedTile.image = mineImg;
                 [timer invalidate];
-
+                
                 [NSTimer scheduledTimerWithTimeInterval:0.5f target:self
                                                selector:@selector(allTileOpen)
                                                userInfo:nil repeats:NO];
                 
-                leftMineLabel.text = @"クリア！";
+                [NSTimer scheduledTimerWithTimeInterval:3 target:self
+                                               selector:@selector(toStart)
+                                               userInfo:nil repeats:NO];
             }
-        } else if ([tileContents[tappedTile.tag - 1] isEqual:MINE]) {
-            tappedTile.image = mineImg;
-            [timer invalidate];
-            
-            [NSTimer scheduledTimerWithTimeInterval:0.5f target:self
-                                           selector:@selector(allTileOpen)
-                                           userInfo:nil repeats:NO];
-            
-            [NSTimer scheduledTimerWithTimeInterval:3 target:self
-                                           selector:@selector(toStart)
-                                           userInfo:nil repeats:NO];
         }
     }
     
