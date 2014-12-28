@@ -58,7 +58,20 @@
 
 - (void)setMine {
 
+    int count = mineNum;
     
+    for (;;){
+        int rand = arc4random() % (widthNum * heightNum);
+        UIImageView *tile = tiles[rand];
+        
+        if (tile.tag != MINE) {
+            tile.tag = MINE;
+            count--;
+            if(count <= 0) {
+                break;
+            }
+        }
+    }
     
 }
 
