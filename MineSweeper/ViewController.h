@@ -8,6 +8,34 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+#define MINE @"Mine"
+#define NOMINE @"NoMine"
+
+@interface ViewController : UIViewController {
+    int width;
+    int height;
+    
+    int widthNum;
+    int heightNum;
+    int mineNum;
+    
+    int openedTileNum;
+    
+    NSMutableArray *tiles;
+    NSMutableArray *tileContents;
+    
+    IBOutlet UIView *base;
+    IBOutlet UILabel *leftMineLabel;
+    IBOutlet UILabel *timerLabel;
+    
+    NSTimeInterval startTime;
+    NSTimer *timer;
+    
+    UIImage *tileImg;
+    UIImage *mineImg;
+    UIImage *nothingImg;
+}
+
+- (IBAction)start:(UIButton*)startButton;
 
 @end
