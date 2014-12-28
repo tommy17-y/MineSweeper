@@ -87,7 +87,9 @@
     } else {
         UIButton *tmpBtn = (UIButton*)[self.view viewWithTag:9];
         tmpBtn.hidden = YES;
-        appDelegate.mineNum = 0;
+        if (appDelegate.mineNum == 30) {
+            appDelegate.mineNum = 0;
+        }
     }
     
     if (appDelegate.heightNum != 0 &&

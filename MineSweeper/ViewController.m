@@ -66,7 +66,7 @@
                 tappedTile.image = nothingImg;
                 openedTileNum++;
                 
-                [self mineCount:(int)tappedTile.tag];
+                [self tileNumDisplay:(int)tappedTile.tag];
                 
                 if (openedTileNum == widthNum * heightNum - mineNum) {
                     [timer invalidate];
@@ -94,68 +94,89 @@
     
 }
 
-- (void)mineCount:(int)tappedTileTag {
-    int count = 0;
+- (void)mineCount {
     
-    // 最上段以外
-    if (tappedTileTag > widthNum) {
-        if ([tileContents[tappedTileTag - widthNum - 1] isEqual:MINE]) {
-            count++;
+    for (int i = 1; i < widthNum * heightNum; i++) {
+        int count = 0;
+        
+        // 最上段以外
+        if (i > widthNum) {
+            if ([tileContents[i - widthNum - 1] isEqual:MINE]) {
+                count++;
+            }
+            
+            if (i % widthNum != 0) {
+                if ([tileContents[i - widthNum + 1 - 1] isEqual:MINE]) {
+                    count++;
+                }
+            }
+            
+            if (i % widthNum != 1) {
+                if ([tileContents[i - widthNum - 1 - 1] isEqual:MINE]) {
+                    count++;
+                }
+            }
         }
         
-        if (tappedTileTag % widthNum != 0) {
-            if ([tileContents[tappedTileTag - widthNum + 1 - 1] isEqual:MINE]) {
+        // 最下段以外
+        if (i <= (widthNum * (heightNum - 1))) {
+            if ([tileContents[i + widthNum - 1] isEqual:MINE]) {
+                count++;
+            }
+            
+            if (i % widthNum != 0) {
+                if ([tileContents[i + widthNum + 1 - 1] isEqual:MINE]) {
+                    count++;
+                }
+            }
+            
+            if (i % widthNum != 1) {
+                if ([tileContents[i + widthNum - 1 - 1] isEqual:MINE]) {
+                    count++;
+                }
+            }
+            
+        }
+        
+        // 最右以外
+        if (i % widthNum != 0) {
+            if ([tileContents[i + 1 - 1] isEqual:MINE]) {
                 count++;
             }
         }
         
-        if (tappedTileTag % widthNum != 1) {
-            if ([tileContents[tappedTileTag - widthNum - 1 - 1] isEqual:MINE]) {
+        // 最左以外
+        if (i % widthNum != 1) {
+            if ([tileContents[i - 1 - 1] isEqual:MINE]) {
                 count++;
             }
+        }
+        
+        UIImageView *tappedTile = (UIImageView*)[base viewWithTag:i];
+        UILabel *tappedTileLabel = (UILabel*)[tappedTile viewWithTag:tappedTile.tag + 1000];
+        
+        if (count != 0) {
+            tappedTileLabel.text = [NSString stringWithFormat:@"%d", count];
         }
     }
-    
-    // 最下段以外
-    if (tappedTileTag <= (widthNum * (heightNum - 1))) {
-        if ([tileContents[tappedTileTag + widthNum - 1] isEqual:MINE]) {
-            count++;
-        }
-        
-        if (tappedTileTag % widthNum != 0) {
-            if ([tileContents[tappedTileTag + widthNum + 1 - 1] isEqual:MINE]) {
-                count++;
-            }
-        }
-        
-        if (tappedTileTag % widthNum != 1) {
-            if ([tileContents[tappedTileTag + widthNum - 1 - 1] isEqual:MINE]) {
-                count++;
-            }
-        }
 
-    }
-    
-    // 最右以外
-    if (tappedTileTag % widthNum != 0) {
-        if ([tileContents[tappedTileTag + 1 - 1] isEqual:MINE]) {
-            count++;
-        }
-    }
-    
-    // 最左以外
-    if (tappedTileTag % widthNum != 1) {
-        if ([tileContents[tappedTileTag - 1 - 1] isEqual:MINE]) {
-            count++;
-        }
-    }
-    
+}
+
+- (void)tileNumDisplay:(int)tappedTileTag {
     UIImageView *tappedTile = (UIImageView*)[base viewWithTag:tappedTileTag];
-    UILabel *tappedTileLabel = (UILabel*)[tappedTile viewWithTag:tappedTile.tag + 100];
+    UILabel *tappedTileLabel = (UILabel*)[tappedTile viewWithTag:tappedTile.tag + 1000];
     
-    tappedTileLabel.text = [NSString stringWithFormat:@"%d", count];
     tappedTileLabel.hidden = NO;
 
+    int count = (int)tappedTileLabel.text.integerValue;
+
+    if (count == 0) {
+        [self autoOpenTile];
+    }
+}
+
+- (void)autoOpenTile {
+    
 }
 
 - (void)allTileOpen {
@@ -207,7 +228,7 @@
                                         height)];
         numLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
         numLabel.textAlignment = NSTextAlignmentCenter;
-        numLabel.tag = i + 1 + 100;
+        numLabel.tag = i + 1 + 1000;
         numLabel.text = @"";
         numLabel.hidden = YES;
         
@@ -232,6 +253,8 @@
             }
         }
     }
+    
+    [self mineCount];
     
 }
 
