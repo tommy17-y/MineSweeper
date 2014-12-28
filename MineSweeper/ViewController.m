@@ -25,7 +25,7 @@
     heightNum = appDelegate.heightNum;
     mineNum = appDelegate.mineNum;
     
-    if (widthNum <= 6 && heightNum <= 10) {
+    if (widthNum <= 6 && heightNum <= 8) {
         width = 50;
         height = 50;
     } else {
@@ -96,7 +96,7 @@
 
 - (void)mineCount {
     
-    for (int i = 1; i < widthNum * heightNum; i++) {
+    for (int i = 1; i <= widthNum * heightNum; i++) {
         int count = 0;
         
         // 最上段以外
@@ -171,12 +171,115 @@
     int count = (int)tappedTileLabel.text.integerValue;
 
     if (count == 0) {
-        [self autoOpenTile];
+        [self autoOpenTile:(int)tappedTileTag];
     }
 }
 
-- (void)autoOpenTile {
+- (void)autoOpenTile:(int)openedTileTag {
+
+    // 最上段以外
+    if (openedTileTag > widthNum) {
+        UIImageView *tile = (UIImageView*)[base viewWithTag:openedTileTag - widthNum];
+        UILabel *tileLabel = (UILabel*)[tile viewWithTag:tile.tag + 1000];
+        if ([tileLabel.text isEqual:@""] && tileLabel.hidden == YES) {
+            tileLabel.hidden = NO;
+            tile.image = nothingImg;
+            openedTileNum++;
+            [self autoOpenTile:(int)tile.tag];
+        }
+        
+        if (openedTileTag % widthNum != 0) {
+            UIImageView *tile2 = (UIImageView*)[base viewWithTag:openedTileTag - widthNum + 1];
+            UILabel *tileLabel2 = (UILabel*)[tile viewWithTag:tile2.tag + 1000];
+            if ([tileLabel2.text isEqual:@""] && tileLabel2.hidden == YES) {
+                tileLabel2.hidden = NO;
+                tile2.image = nothingImg;
+                openedTileNum++;
+                [self autoOpenTile:(int)tile2.tag];
+            }
+        }
+        
+        if (openedTileTag % widthNum != 1) {
+            UIImageView *tile3 = (UIImageView*)[base viewWithTag:openedTileTag - widthNum - 1];
+            UILabel *tileLabel3 = (UILabel*)[tile viewWithTag:tile3.tag + 1000];
+            if ([tileLabel3.text isEqual:@""] && tileLabel3.hidden == YES) {
+                tile3.image = nothingImg;
+                tileLabel3.hidden = NO;
+                openedTileNum++;
+                [self autoOpenTile:(int)tile3.tag];
+            }
+        }
+    }
     
+    // 最下段以外
+    if (openedTileTag <= (widthNum * (heightNum - 1))) {
+        UIImageView *tile = (UIImageView*)[base viewWithTag:openedTileTag + widthNum];
+        UILabel *tileLabel = (UILabel*)[tile viewWithTag:tile.tag + 1000];
+        if ([tileLabel.text isEqual:@""] && tileLabel.hidden == YES) {
+            tile.image = nothingImg;
+            tileLabel.hidden = NO;
+            openedTileNum++;
+            [self autoOpenTile:(int)tile.tag];
+        }
+        
+        if (openedTileTag % widthNum != 0) {
+            UIImageView *tile2 = (UIImageView*)[base viewWithTag:openedTileTag + widthNum + 1];
+            UILabel *tileLabel2 = (UILabel*)[tile viewWithTag:tile2.tag + 1000];
+            if ([tileLabel2.text isEqual:@""] && tileLabel2.hidden == YES) {
+                tile2.image = nothingImg;
+                tileLabel2.hidden = NO;
+                openedTileNum++;
+                [self autoOpenTile:(int)tile2.tag];
+            }
+        }
+        
+        if (openedTileTag % widthNum != 1) {
+            UIImageView *tile3 = (UIImageView*)[base viewWithTag:openedTileTag + widthNum - 1];
+            UILabel *tileLabel3 = (UILabel*)[tile viewWithTag:tile3.tag + 1000];
+            if ([tileLabel3.text isEqual:@""] && tileLabel3.hidden == YES) {
+                tile3.image = nothingImg;
+                tileLabel3.hidden = NO;
+                openedTileNum++;
+                [self autoOpenTile:(int)tile3.tag];
+            }
+        }
+        
+    }
+    
+    // 最右以外
+    if (openedTileTag % widthNum != 0) {
+        UIImageView *tile = (UIImageView*)[base viewWithTag:openedTileTag + 1];
+        UILabel *tileLabel = (UILabel*)[tile viewWithTag:tile.tag + 1000];
+        if ([tileLabel.text isEqual:@""] && tileLabel.hidden == YES) {
+            tile.image = nothingImg;
+            tileLabel.hidden = NO;
+            openedTileNum++;
+            [self autoOpenTile:(int)tile.tag];
+        }
+    }
+    
+    // 最左以外
+    if (openedTileTag % widthNum != 1) {
+        UIImageView *tile = (UIImageView*)[base viewWithTag:openedTileTag - 1];
+        UILabel *tileLabel = (UILabel*)[tile viewWithTag:tile.tag + 1000];
+        if ([tileLabel.text isEqual:@""] && tileLabel.hidden == YES) {
+            tile.image = nothingImg;
+            tileLabel.hidden = NO;
+            openedTileNum++;
+            [self autoOpenTile:(int)tile.tag];
+        }
+    }
+
+    if (openedTileNum == widthNum * heightNum - mineNum) {
+        [timer invalidate];
+        
+        [NSTimer scheduledTimerWithTimeInterval:0.5f target:self
+                                       selector:@selector(allTileOpen)
+                                       userInfo:nil repeats:NO];
+        
+        leftMineLabel.text = @"クリア！";
+    }
+
 }
 
 - (void)allTileOpen {
