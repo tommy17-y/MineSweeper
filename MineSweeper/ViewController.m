@@ -50,9 +50,12 @@
     UIImageView *tappedTile = (UIImageView*)[base viewWithTag:recognizer.view.tag];
     
     if (tappedTile != nil) {
+        tappedTile.userInteractionEnabled = NO;
         if ([tileContents[tappedTile.tag - 1] isEqual:NOMINE]) {
             tappedTile.image = nothingImg;
             openedTileNum++;
+            
+            [self mineCount:(int)tappedTile.tag];
             
             if (openedTileNum == widthNum * heightNum - mineNum) {
                 [timer invalidate];
@@ -79,6 +82,70 @@
     
 }
 
+- (void)mineCount:(int)tappedTileTag {
+    int count = 0;
+    
+    // 最上段以外
+    if (tappedTileTag > widthNum) {
+        if ([tileContents[tappedTileTag - widthNum - 1] isEqual:MINE]) {
+            count++;
+        }
+        
+        if (tappedTileTag % widthNum != 0) {
+            if ([tileContents[tappedTileTag - widthNum + 1 - 1] isEqual:MINE]) {
+                count++;
+            }
+        }
+        
+        if (tappedTileTag % widthNum != 1) {
+            if ([tileContents[tappedTileTag - widthNum - 1 - 1] isEqual:MINE]) {
+                count++;
+            }
+        }
+    }
+    
+    // 最下段以外
+    if (tappedTileTag <= (widthNum * (heightNum - 1))) {
+        if ([tileContents[tappedTileTag + widthNum - 1] isEqual:MINE]) {
+            count++;
+        }
+        
+        if (tappedTileTag % widthNum != 0) {
+            if ([tileContents[tappedTileTag + widthNum + 1 - 1] isEqual:MINE]) {
+                count++;
+            }
+        }
+        
+        if (tappedTileTag % widthNum != 1) {
+            if ([tileContents[tappedTileTag + widthNum - 1 - 1] isEqual:MINE]) {
+                count++;
+            }
+        }
+
+    }
+    
+    // 最右以外
+    if (tappedTileTag % widthNum != 0) {
+        if ([tileContents[tappedTileTag + 1 - 1] isEqual:MINE]) {
+            count++;
+        }
+    }
+    
+    // 最左以外
+    if (tappedTileTag % widthNum != 1) {
+        if ([tileContents[tappedTileTag - 1 - 1] isEqual:MINE]) {
+            count++;
+        }
+    }
+    
+    UIImageView *tappedTile = (UIImageView*)[base viewWithTag:tappedTileTag];
+    UILabel *tappedTileLabel = (UILabel*)[tappedTile viewWithTag:tappedTile.tag + 100];
+    
+    tappedTileLabel.text = [NSString stringWithFormat:@"%d", count];
+    tappedTileLabel.hidden = NO;
+
+}
+
 - (void)allTileOpen {
     
     for (int i = 0; i < widthNum * heightNum; i++) {
@@ -103,7 +170,7 @@
     
     for (int i = 0; i < widthNum * heightNum; i++) {
         
-        UIImageView *tile = [[UIImageView alloc]initWithFrame:
+        UIImageView *tile = [[UIImageView alloc] initWithFrame:
                              CGRectMake(0 + (i % widthNum) * width,
                                         0 + (i / heightNum) * height,
                                         width,
@@ -120,8 +187,20 @@
         [tile addGestureRecognizer:recognizer];
         
         [base addSubview:tile];
+        
+        UILabel *numLabel = [[UILabel alloc] initWithFrame:
+                             CGRectMake(0,
+                                        0,
+                                        width,
+                                        height)];
+        numLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+        numLabel.textAlignment = NSTextAlignmentCenter;
+        numLabel.tag = i + 1 + 100;
+        numLabel.text = @"";
+        numLabel.hidden = YES;
+        
+        [tile addSubview:numLabel];
     }
-    
 }
 
 - (void)setMine {
