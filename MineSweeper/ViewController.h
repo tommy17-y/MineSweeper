@@ -31,8 +31,11 @@
     NSTimeInterval startTime;
     NSTimer *timer;
     
+    NSTimeInterval tapStartTime;
+    
     UIImage *tileImg;
     UIImage *mineImg;
+    UIImage *flagImg;
     UIImage *nothingImg;
 }
 

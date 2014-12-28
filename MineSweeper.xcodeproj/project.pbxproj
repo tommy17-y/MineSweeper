@@ -24,6 +24,7 @@
 		B6C17E9B1A4FD48900357C80 /* masu.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C17E991A4FD48900357C80 /* masu.png */; };
 		B6C17E9C1A4FD48900357C80 /* mine.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C17E9A1A4FD48900357C80 /* mine.png */; };
 		B6C17E9E1A4FFAAA00357C80 /* nothing.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C17E9D1A4FFAAA00357C80 /* nothing.png */; };
+		B6C17EA01A5023B400357C80 /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C17E9F1A5023B400357C80 /* flag.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		B6C17E991A4FD48900357C80 /* masu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masu.png; sourceTree = "<group>"; };
 		B6C17E9A1A4FD48900357C80 /* mine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mine.png; sourceTree = "<group>"; };
 		B6C17E9D1A4FFAAA00357C80 /* nothing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nothing.png; sourceTree = "<group>"; };
+		B6C17E9F1A5023B400357C80 /* flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flag.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 		B6C17E981A4FD47700357C80 /* 素材 */ = {
 			isa = PBXGroup;
 			children = (
+				B6C17E9F1A5023B400357C80 /* flag.png */,
 				B6C17E9D1A4FFAAA00357C80 /* nothing.png */,
 				B6C17E991A4FD48900357C80 /* masu.png */,
 				B6C17E9A1A4FD48900357C80 /* mine.png */,
@@ -248,6 +251,7 @@
 				B6C17E7C1A4FC9B300357C80 /* Images.xcassets in Resources */,
 				B6C17E9C1A4FD48900357C80 /* mine.png in Resources */,
 				B6C17E9B1A4FD48900357C80 /* masu.png in Resources */,
+				B6C17EA01A5023B400357C80 /* flag.png in Resources */,
 				B6C17E9E1A4FFAAA00357C80 /* nothing.png in Resources */,
 				B6C17E6E1A4FC9B300357C80 /* InfoPlist.strings in Resources */,
 				B6C17E771A4FC9B300357C80 /* Main.storyboard in Resources */,
@@ -478,6 +482,7 @@
 				B6C17E941A4FC9B300357C80 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B6C17E951A4FC9B300357C80 /* Build configuration list for PBXNativeTarget "MineSweeperTests" */ = {
 			isa = XCConfigurationList;
@@ -486,6 +491,7 @@
 				B6C17E971A4FC9B300357C80 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
