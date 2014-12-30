@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 #import "AppDelegate.h"
 
 #define MINE @"Mine"
@@ -40,8 +41,14 @@
     UIImage *mineImg;
     UIImage *flagImg;
     UIImage *nothingImg;
+    
+    IBOutlet UIButton *tileBtn;
+    IBOutlet UIButton *flagBtn;
 }
 
 - (IBAction)start:(UIButton*)startButton;
+- (IBAction)tappedTileBtn;
+- (IBAction)tappedFladBtn;
+
 
 @end

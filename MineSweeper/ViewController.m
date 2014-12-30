@@ -49,7 +49,16 @@
     timerLabel.text = @"00:00:00";
     
     base.userInteractionEnabled = NO;
-    
+
+    tileBtn.hidden = YES;
+    flagBtn.hidden = YES;
+    tileBtn.layer.borderWidth = 2.0f;
+    tileBtn.layer.borderColor = [[UIColor whiteColor] CGColor];
+    tileBtn.layer.cornerRadius = 10.0f;
+    flagBtn.layer.borderWidth = 2.0f;
+    flagBtn.layer.borderColor = [[UIColor whiteColor] CGColor];
+    flagBtn.layer.cornerRadius = 10.0f;
+
     [self setTile];
     [self setMine];
     
@@ -59,35 +68,45 @@
     
     UIImageView *tappedTile = (UIImageView*)[base viewWithTag:recognizer.view.tag];
     
-    if (tappedTile != nil) {
-        if (tappedTile.image != flagImg) {
-            tappedTile.userInteractionEnabled = NO;
-            if ([tileContents[tappedTile.tag - 1] isEqual:NOMINE]) {
-                tappedTile.image = nothingImg;
-                openedTileNum++;
-                
-                [self tileNumDisplay:(int)tappedTile.tag];
-                
-                if (openedTileNum == widthNum * heightNum - mineNum) {
+    if (tileBtn.layer.borderColor == [[UIColor redColor] CGColor]) {
+        if (tappedTile != nil) {
+            if (tappedTile.image != flagImg) {
+                tappedTile.userInteractionEnabled = NO;
+                if ([tileContents[tappedTile.tag - 1] isEqual:NOMINE]) {
+                    tappedTile.image = nothingImg;
+                    openedTileNum++;
+                    
+                    [self tileNumDisplay:(int)tappedTile.tag];
+                    
+                    if (openedTileNum == widthNum * heightNum - mineNum) {
+                        [timer invalidate];
+                        
+                        [NSTimer scheduledTimerWithTimeInterval:0.5f target:self
+                                                       selector:@selector(allTileOpen)
+                                                       userInfo:nil repeats:NO];
+                        
+                        leftMineLabel.text = @"クリア！";
+                    }
+                } else if ([tileContents[tappedTile.tag - 1] isEqual:MINE]) {
+                    tappedTile.image = mineImg;
                     [timer invalidate];
                     
                     [NSTimer scheduledTimerWithTimeInterval:0.5f target:self
                                                    selector:@selector(allTileOpen)
                                                    userInfo:nil repeats:NO];
                     
-                    leftMineLabel.text = @"クリア！";
+                    [NSTimer scheduledTimerWithTimeInterval:3 target:self
+                                                   selector:@selector(toStart)
+                                                   userInfo:nil repeats:NO];
                 }
-            } else if ([tileContents[tappedTile.tag - 1] isEqual:MINE]) {
-                tappedTile.image = mineImg;
-                [timer invalidate];
-                
-                [NSTimer scheduledTimerWithTimeInterval:0.5f target:self
-                                               selector:@selector(allTileOpen)
-                                               userInfo:nil repeats:NO];
-                
-                [NSTimer scheduledTimerWithTimeInterval:3 target:self
-                                               selector:@selector(toStart)
-                                               userInfo:nil repeats:NO];
+            }
+        }
+    } else {
+        if (tappedTile != nil) {
+            if (tappedTile.image == tileImg) {
+                tappedTile.image = flagImg;
+            } else if (tappedTile.image == flagImg) {
+                tappedTile.image = tileImg;
             }
         }
     }
@@ -181,7 +200,7 @@
     if (openedTileTag > widthNum) {
         UIImageView *tile = (UIImageView*)[base viewWithTag:openedTileTag - widthNum];
         UILabel *tileLabel = (UILabel*)[tile viewWithTag:tile.tag + 1000];
-        if ([tileLabel.text isEqual:@""] && tileLabel.hidden == YES) {
+        if ([tileLabel.text isEqual:@""] && tileLabel.hidden == YES && tile.image != flagImg) {
             tileLabel.hidden = NO;
             tile.image = nothingImg;
             openedTileNum++;
@@ -191,7 +210,7 @@
         if (openedTileTag % widthNum != 0) {
             UIImageView *tile2 = (UIImageView*)[base viewWithTag:openedTileTag - widthNum + 1];
             UILabel *tileLabel2 = (UILabel*)[tile viewWithTag:tile2.tag + 1000];
-            if ([tileLabel2.text isEqual:@""] && tileLabel2.hidden == YES) {
+            if ([tileLabel2.text isEqual:@""] && tileLabel2.hidden == YES && tile2.image != flagImg) {
                 tileLabel2.hidden = NO;
                 tile2.image = nothingImg;
                 openedTileNum++;
@@ -202,7 +221,7 @@
         if (openedTileTag % widthNum != 1) {
             UIImageView *tile3 = (UIImageView*)[base viewWithTag:openedTileTag - widthNum - 1];
             UILabel *tileLabel3 = (UILabel*)[tile viewWithTag:tile3.tag + 1000];
-            if ([tileLabel3.text isEqual:@""] && tileLabel3.hidden == YES) {
+            if ([tileLabel3.text isEqual:@""] && tileLabel3.hidden == YES && tile3.image != flagImg) {
                 tile3.image = nothingImg;
                 tileLabel3.hidden = NO;
                 openedTileNum++;
@@ -215,7 +234,7 @@
     if (openedTileTag <= (widthNum * (heightNum - 1))) {
         UIImageView *tile = (UIImageView*)[base viewWithTag:openedTileTag + widthNum];
         UILabel *tileLabel = (UILabel*)[tile viewWithTag:tile.tag + 1000];
-        if ([tileLabel.text isEqual:@""] && tileLabel.hidden == YES) {
+        if ([tileLabel.text isEqual:@""] && tileLabel.hidden == YES && tile.image != flagImg) {
             tile.image = nothingImg;
             tileLabel.hidden = NO;
             openedTileNum++;
@@ -225,7 +244,7 @@
         if (openedTileTag % widthNum != 0) {
             UIImageView *tile2 = (UIImageView*)[base viewWithTag:openedTileTag + widthNum + 1];
             UILabel *tileLabel2 = (UILabel*)[tile viewWithTag:tile2.tag + 1000];
-            if ([tileLabel2.text isEqual:@""] && tileLabel2.hidden == YES) {
+            if ([tileLabel2.text isEqual:@""] && tileLabel2.hidden == YES && tile2.image != flagImg) {
                 tile2.image = nothingImg;
                 tileLabel2.hidden = NO;
                 openedTileNum++;
@@ -236,7 +255,7 @@
         if (openedTileTag % widthNum != 1) {
             UIImageView *tile3 = (UIImageView*)[base viewWithTag:openedTileTag + widthNum - 1];
             UILabel *tileLabel3 = (UILabel*)[tile viewWithTag:tile3.tag + 1000];
-            if ([tileLabel3.text isEqual:@""] && tileLabel3.hidden == YES) {
+            if ([tileLabel3.text isEqual:@""] && tileLabel3.hidden == YES && tile3.image != flagImg) {
                 tile3.image = nothingImg;
                 tileLabel3.hidden = NO;
                 openedTileNum++;
@@ -250,7 +269,7 @@
     if (openedTileTag % widthNum != 0) {
         UIImageView *tile = (UIImageView*)[base viewWithTag:openedTileTag + 1];
         UILabel *tileLabel = (UILabel*)[tile viewWithTag:tile.tag + 1000];
-        if ([tileLabel.text isEqual:@""] && tileLabel.hidden == YES) {
+        if ([tileLabel.text isEqual:@""] && tileLabel.hidden == YES && tile.image != flagImg) {
             tile.image = nothingImg;
             tileLabel.hidden = NO;
             openedTileNum++;
@@ -262,7 +281,7 @@
     if (openedTileTag % widthNum != 1) {
         UIImageView *tile = (UIImageView*)[base viewWithTag:openedTileTag - 1];
         UILabel *tileLabel = (UILabel*)[tile viewWithTag:tile.tag + 1000];
-        if ([tileLabel.text isEqual:@""] && tileLabel.hidden == YES) {
+        if ([tileLabel.text isEqual:@""] && tileLabel.hidden == YES && tile.image != flagImg) {
             tile.image = nothingImg;
             tileLabel.hidden = NO;
             openedTileNum++;
@@ -363,6 +382,10 @@
 
 - (IBAction)start:(UIButton*)startButton {
     startButton.hidden = YES;
+    tileBtn.hidden = NO;
+    flagBtn.hidden = NO;
+    tileBtn.layer.borderColor = [[UIColor redColor] CGColor];
+    flagBtn.layer.borderColor = [[UIColor whiteColor] CGColor];
     startTime = [NSDate timeIntervalSinceReferenceDate];
     
     for (int i = 0; i < widthNum * heightNum; i++) {
@@ -375,6 +398,16 @@
     timer = [NSTimer scheduledTimerWithTimeInterval:0.01f target:self
                                            selector:@selector(timerLabelUpdata)
                                            userInfo:nil repeats:YES];
+}
+
+- (IBAction)tappedTileBtn {
+    tileBtn.layer.borderColor = [[UIColor redColor] CGColor];
+    flagBtn.layer.borderColor = [[UIColor whiteColor] CGColor];
+}
+
+- (IBAction)tappedFladBtn {
+    tileBtn.layer.borderColor = [[UIColor whiteColor] CGColor];
+    flagBtn.layer.borderColor = [[UIColor redColor] CGColor];
 }
 
 - (void)timerLabelUpdata {
@@ -400,7 +433,7 @@
     
         NSTimeInterval tapEndTime = [NSDate timeIntervalSinceReferenceDate];
         
-        if ((tapEndTime - tapStartTime) > 0.7) {
+        if ((tapEndTime - tapStartTime) > 0.5) {
             UITouch *touch = [touches anyObject];
             CGPoint location = [touch locationInView:base];
             
